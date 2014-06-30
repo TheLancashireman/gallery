@@ -1,0 +1,72 @@
+
+Photo gallery design
+
+
+Directory structure:
+
+gallery-root
+    index.html
+    images
+        2014
+            2014-06
+                2014-06-index.html
+                2014-06-05-1234-DescriptiveName.jpeg
+                thumbs
+                    2014-06-05-1234-DescriptiveName-thumb.jpeg
+        2013
+            2013-12
+                thumbs
+            2013-10
+                thumbs
+        ...etc.
+    BrokenBoats.html
+    AnotherTheme.html
+    ...etc.
+
+index.html is created by hand.
+
+HTML files for image indexes and themes are created by script using template
+file gallery-index-html.tmpl and a description file.
+
+The description file contains:
+
+Title: <gallery title>          - page title in HTML head
+Header: <gallery header>        - header line for gallery's main page
+Filename: <filename>            - name of HTML file relative to gallery-root
+
+
+
+Image: <filename>               - File name of photo relative to HTML file.
+Image: <another filename>
+...etc.
+
+Each Image: line can be followed by:
+Thumb: <thumbnail file name>
+Caption: <caption for image>
+(others?)
+--- at most one line of each type.
+
+Blank lines and lines starting with # are ignored.
+
+The gallery template expects:
+
+* $gallery_title
+* $gallery_header
+* $n_images
+* @images
+* @thumbs
+
+To do: captions etc.
+
+Example gallery file:
+
+Title: Broken boats
+Header: Broken boats
+Filename: BrokenBoats.html
+
+Image: images/2014/2014-06/2014-06-17-1234-shipwreck.jpeg
+Caption: I see no ships
+
+Image: images/2013/2013-08/2013-08-23-5678-dead-dinghy.jpeg
+Caption: Is it a boat?
+Thumb: images/2013/2013-08/thumbs/2013-08-23-5678-dead-dinghy-thumb.jpeg
