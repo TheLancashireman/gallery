@@ -53,24 +53,24 @@
     <div id="navigator">
       <div id="leftthumbs" class="navigator">
         <div class="leftthumb" id="leftthumb0">
-          <a href="javascript: changeImage(0, [% n_images %]);"><h3>previous</h3><img
-              src="/images/gallery.jpeg"
-              alt="Gallery"/></a>
+          <a href="javascript: changeImage(0, [% n_images %]);">previous<br/>
+            <img src="/images/gallery.jpeg"
+                 alt="Gallery"/></a>
         </div>
 [% im = 0 -%]
 [% WHILE im < n_images -%]
 [%   im = im + 1 -%]
         <div class="leftthumb" id="leftthumb[% im %]">
-          <a href="javascript: changeImage([% im %], [% n_images %]);"><h3>previous</h3><img
-              src="[% thumbs.$im %]"
-              alt="[% images.$im %]"/></a>
+          <a href="javascript: changeImage([% im %], [% n_images %]);">previous<br/>
+            <img src="[% thumbs.$im %]"
+                 alt="[% images.$im %]"/></a>
         </div>
 [% END -%]
 [% im = im + 1 -%]
         <div class="leftthumb" id="leftthumb[% im %]">
-          <a href="javascript: changeImage(0, [% n_images %]);"><h3>previous</h3><img
-              src="/images/gallery.jpeg"
-              alt="Gallery"/></a>
+          <a href="javascript: changeImage(0, [% n_images %]);">previous<br/>
+            <img src="/images/gallery.jpeg"
+                 alt="Gallery"/></a>
         </div>
       </div>
       <div class="navigator" id="mainimage">
@@ -80,7 +80,7 @@
 [%   im = im + 1 -%]
         <div class="normal" id="normal[% im %]">
           <h3>[% captions.$im %]</h3>
-          <p>[% subtexts.$im %]</p>
+          <p class="subtext">[% subtexts.$im %]</p>
           <a href="[% images.$im %]"><img
               src="[% images.$im %]"
               alt="[% images.$im %]"/></a>
@@ -89,24 +89,24 @@
       </div>
       <div class="navigator" id="rightthumbs">
         <div class="rightthumb" id="rightthumb0">
-          <a href="javascript: changeImage(0, [% n_images %]);"><h3>next</h3><img
-              src="/images/gallery.jpeg"
-              alt="Gallery"/></a>
+          <a href="javascript: changeImage(0, [% n_images %]);">next<br/>
+            <img src="/images/gallery.jpeg"
+                 alt="Gallery"/></a>
         </div>
 [% im = 0 -%]
 [% WHILE im < n_images -%]
 [%   im = im + 1 -%]
         <div class="rightthumb" id="rightthumb[% im %]">
-          <a href="javascript: changeImage([% im %], [% n_images %]);"><h3>next</h3><img
-              src="[% thumbs.$im %]"
-              alt="[% images.$im %]"/></a>
+          <a href="javascript: changeImage([% im %], [% n_images %]);">next<br/>
+            <img src="[% thumbs.$im %]"
+                 alt="[% images.$im %]"/></a>
         </div>
 [% END -%]
 [% im = im + 1 -%]
         <div class="rightthumb" id="rightthumb[% im %]">
-          <a href="javascript: changeImage(0, [% n_images %]);"><h3>next</h3><img
-              src="/images/gallery.jpeg"
-              alt="Gallery"/></a>
+          <a href="javascript: changeImage(0, [% n_images %]);">next<br/>
+            <img src="/images/gallery.jpeg"
+                 alt="Gallery"/></a>
         </div>
       </div>
     </div>
