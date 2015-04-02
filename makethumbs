@@ -1,0 +1,7 @@
+#!/bin/sh
+
+mkdir -p thumbs
+for f in *.jpeg ; do
+	t=`basename $f .jpeg`-thumb.jpeg
+	convert -thumbnail x120 $f thumbs/$t
+done
