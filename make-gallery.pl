@@ -25,6 +25,7 @@ use Template;
 
 sub Usage;
 sub ReadGalleryFile;
+#sub MakeImageLinks;
 sub ConstructGalleryVars;
 sub WriteGalleryHtml;
 sub Trim;
@@ -43,6 +44,7 @@ my $gallery_title;
 my $gallery_header;
 my $gallery_text;
 my $gallery_filename;
+my $image_dir;
 my $n_images = 0;
 my @images;
 my @thumbs;
@@ -72,6 +74,11 @@ else
 }
 
 $n_errors = ReadGalleryFile($in_name);
+
+#if ( $n_errors == 0 )
+#{
+#	$n_errors += MakeImageLinks();
+#}
 
 if ( $n_errors == 0 )
 {
@@ -208,6 +215,18 @@ sub ReadGalleryFile
 						$gallery_filename = $value;
 					}
 				}
+				elsif ( lc($keyword) eq "imagedir" )
+				{
+					if ( defined $image_dir )
+					{
+						print STDERR "Redefined ImageDir found  in line $lineno.\n";
+						$n_errors++;
+					}
+					else
+					{
+						$image_dir = $value;
+					}
+				}
 				elsif ( lc($keyword) eq "image" )
 				{
 					$n_images++;
@@ -314,6 +333,57 @@ sub ReadGalleryFileTemp
 	return 0;
 }
 
+
+# MakeImageLinks()
+#
+# Ensures that all the images in the mirror are correctly linked to their sources (if the
+# image_dir has been specified).
+#
+# Returns the number of errors found.
+#sub MakeImageLinks()
+#{
+#	my $n_errors = 0;
+#
+#	if ( defined $image_dir )
+#	{
+#		my $out_thumbs = $out_name."/thumbs";
+#
+#		if ( ! -d $out_thumbs )
+#		{
+#			mkdir $out_thumbs;
+#		}
+#
+#		for ( $inum = 1; $inum <= $n_images; $inum++ )
+#		{
+#			if ( -l 
+#			if ( defined $thumbs[$inum] )
+#			{
+#				# Thumb has been specified
+#			}
+#			else
+#			{
+#				# Construct a thumb filename from the image filename.
+#				my $f = $images[$inum];
+#
+#				if ( $f =~ m{\/} )
+#				{
+#					$f =~ s/^(.*)\/([^\/]*)\.([^\.]*)$/$1\/thumbs\/$2-thumb.$3/;
+#				}
+#				else
+#				{
+#					$f =~ s/^(.*)\.([^\.]*)$/thumbs\/$1-thumb.$2/;
+#				}
+#
+#				print STDOUT "Constructed thumb: \"$f\"\n" if ( $DBG >= 5 );
+#
+#				$thumbs[$inum] = $f;
+#			}
+#		}
+#	}
+#
+#	return $n_errors;
+#}
+
 # ConstructGalleryVars
 #
 # Fills in the gaps in the gallery variables. Thumbnail names are automatically generated.
@@ -362,7 +432,7 @@ sub ConstructGalleryVars
 		}
 		else
 		{
-			# Construct a thunb filename from the image filename.
+			# Construct a thumb filename from the image filename.
 			my $f = $images[$inum];
 
 			if ( $f =~ m{\/} )
@@ -375,13 +445,10 @@ sub ConstructGalleryVars
 			}
 
 			print STDOUT "Constructed thumb: \"$f\"\n" if ( $DBG >= 5 );
-		
+
 
 			$thumbs[$inum] = $f;
 		}
-
-		# TODO: Warning if image doesn't exist.
-		# TODO: Warning if thumb doesn't exist.
 	}
 
 	my $gallery_vars =
@@ -414,5 +481,4 @@ sub WriteGalleryHtml
 	{
 		print STDERR "Template generation failed: " . $tt->error() . "\n";
 	}
-
 }
