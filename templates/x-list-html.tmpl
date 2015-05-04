@@ -24,11 +24,9 @@
           <h1>[% list_header %]</h1>
         </td>
         <td class="pagehead_right">
-          <a href="http://www.forl.co.uk/graphics.php">
-            <img style="border:0; width:100px; height:100px"
-                 src="/images/forlrose01.gif"
-                 alt="Red rose of Lancashire" />
-          </a>
+          <img style="border:0; width:100px; height:100px"
+               src="/images/books.jpeg"
+               alt="books.jpeg" />
         </td>
       </tr>
     </table>
@@ -37,7 +35,16 @@
   <hr/>
 
   <h1>[% list_subject %]</h1>
-  <p>Click on the initials and the authors to open and close the lists.</p>
+  <p>Click on the initials and the authors to open and close the lists. If your browser doesn't support
+     JavaScript (or if you have disabled it) you'll see the whole list at once.</p>
+  <p>Clicking on a [www] link next to an author will take to to a web page about the author. Most of these are
+     Wikipedia pages.</p>
+  <p>Clicking on a book title will in most cases take you to a web page about the book. I've attempted
+     to classify some of the books into categories like SF (Science fiction), Fantasy, Crime etc. Where
+     I've done this, the classification is bracketed next to the book, like this: [Fantasy]. Please
+     bear in mind that these are my personal classifications; other people's may differ. The border between
+     science fiction and fantasy is very fuzzy.
+  </p>
   <hr/>
 
   <div id="pagetorso" class="index_initials">
@@ -56,20 +63,41 @@
 [%   WHILE j < na -%]
 [%     author = authors.$a -%]
 [%     authorid = authorids.$a -%]
+[%     a_url = a_urls.$a -%]
 [%     nb = n_books.$a -%]
 [%     j = j + 1 -%]
 [%     a = a + 1 -%]
 [%     k = 0 -%]
-          <li id="[% authorid %]" class="index_surname">
+          <li class="index_surname">
             <span class="collapsible">[% author %]</span>
+[%     IF a_url != "" -%]
+            &nbsp;&nbsp;&nbsp;&nbsp;<a href="[% a_url %]">[www]</a>
+[%     END -%]
             <ul class="index_list">
 [%     WHILE k < nb -%]
 [%       book = books.$b -%]
 [%       bookid = bookids.$b -%]
+[%       a_comment = a_comments.$b -%]
+[%       b_comment = t_comments.$b -%]
+[%       class = t_class.$b -%]
+[%       b_url = t_urls.$b -%]
 [%       k = k + 1 -%]
 [%       b = b + 1 -%]
-              <li id="[% bookid %]" class="index_person">
+              <li class="index_person">
+[%       IF b_url == "" -%]
                 [% book %]
+[%       ELSE -%]
+                <a href="[% b_url %]">[% book %]</a>
+[%       END -%]
+[%       IF class != "" -%]
+                &nbsp;&nbsp;[[% class %]]
+[%       END -%]
+[%       IF a_comment != "" -%]
+                &nbsp;&nbsp;([% a_comment %])
+[%       END -%]
+[%       IF b_comment != "" -%]
+                &nbsp;&nbsp;([% b_comment %])
+[%       END -%]
               </li>
 [%     END -%]
             </ul>
