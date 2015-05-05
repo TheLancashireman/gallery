@@ -10,9 +10,9 @@ use Template;
 sub Trim;
 sub TxtToId;
 
-my $list_title = "Dave's books";
-my $list_header = "Dave's books";
-my $list_subject = "Fiction by author";
+my $list_title = "Dave's stuff";
+my $list_header = "Dave's stuff";
+my $list_subject = "Stuff";
 
 my $csvname = $ARGV[0];
 my $htmlname = $ARGV[1];
@@ -20,9 +20,25 @@ my $template = "x-list-html.tmpl";
 my $templatedir = "/data/family-history/tools/gallery/templates";
 my $csvfile;
 my $DBG = 0;
+my $list_type = "?";
 
 die "Usage: make-list.pl <CSV-file> <HTML-file>\n" if ( !defined $csvname );
 open($csvfile, "<$csvname") or die "Could not open $csvname for reading\n";
+
+if ( $csvname =~ m{nonfiction} )
+{
+	$list_type = "nonfiction";
+	$list_title = "Dave's books";
+	$list_header = "Dave's books";
+	$list_subject = "Non-fiction by author";
+}
+elsif ( $csvname =~ m{fiction} )
+{
+	$list_type = "fiction";
+	$list_title = "Dave's books";
+	$list_header = "Dave's books";
+	$list_subject = "Fiction by author";
+}
 
 my %columns = ();
 
@@ -197,7 +213,8 @@ my $list_vars =
 	a_urls			=> \@a_urls,
 	t_comments		=> \@t_comments,
 	t_urls			=> \@t_urls,
-	t_class			=> \@t_class
+	t_class			=> \@t_class,
+	list_type		=> $list_type
 };
 
 if ( $tt->process($template, $list_vars, $htmlname) )
