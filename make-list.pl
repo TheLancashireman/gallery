@@ -30,7 +30,7 @@ if ( $csvname =~ m{nonfiction} )
 	$list_type = "nonfiction";
 	$list_title = "Dave's books";
 	$list_header = "Dave's books";
-	$list_subject = "Non-fiction by author";
+	$list_subject = "Non-fiction by author (under construction)";
 }
 elsif ( $csvname =~ m{fiction} )
 {
