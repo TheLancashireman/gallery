@@ -1,7 +1,15 @@
 #!/bin/sh
 
+# If any files are specified, process them, otherwise process all *.jpeg files
+if [ "$1" = "" ]; then
+	files=*.jpeg
+else
+	files=$*
+fi
+
 mkdir -p thumbs
-for f in *.jpeg ; do
+
+for f in $files ; do
 	t=`basename $f .jpeg`-thumb.jpeg
 	convert -thumbnail x120 $f thumbs/$t
 done
