@@ -11,5 +11,7 @@ mkdir -p thumbs
 
 for f in $files ; do
 	t=`basename $f .jpeg`-thumb.jpeg
-	convert -thumbnail x120 $f thumbs/$t
+	if [ ! -e thumbs/$t ]; then
+		convert -thumbnail x120 $f thumbs/$t
+	fi
 done

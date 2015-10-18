@@ -53,7 +53,7 @@ my @subtexts;
 
 # Instance of the template stuff
 my $tt = Template->new({
-    INCLUDE_PATH => "/data/family-history/tools/gallery/templates",
+    INCLUDE_PATH => "/data/tools/gallery/templates",
     INTERPOLATE => 0,
 }) || die "$Template::ERROR\n";
 
