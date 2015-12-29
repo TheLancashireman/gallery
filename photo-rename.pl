@@ -6,11 +6,40 @@
 # (c) David Haworth
 
 #my $fn_template = "\$(FILE_DIR)\$(EXIF_YEAR)-\$(EXIF_MONTH)-\$(EXIF_DAY)-\$(FILE_SEQUENCE).\$(FILE_EXTENSION)";
+#$(FILE_DIR)$(EXIF_YEAR)-$(EXIF_MONTH)-$(EXIF_DAY)-N-$(FILE_SEQUENCE).$(FILE_EXTENSION)";
+#$(FILE_DIR)$(EXIF_YEAR)-$(EXIF_MONTH)-$(EXIF_DAY)-O-$(FILE_SEQUENCE).$(FILE_EXTENSION)";
+#$(FILE_DIR)$(EXIF_YEAR)-$(EXIF_MONTH)-$(EXIF_DAY)-M-$(FILE_SEQUENCE).$(FILE_EXTENSION)";
 
 sub load_meta;
 sub make_name;
 
 my $fn_template = $ARGV[0];
+
+if ( !defined $fn_template || $fn_template eq '-h' )
+{
+	print "photo-rename.pl -n [file ...]\n";
+	print "photo-rename.pl -o [file ...]\n";
+	print "photo-rename.pl -m [file ...]\n";
+	print "photo-rename.pl TEMPLATE [file ...]\n";
+	print "photo-rename.pl -h\n";
+	exit(0);
+}
+
+if ( $fn_template eq '-n' )
+{
+	$fn_template = '$(FILE_DIR)$(EXIF_YEAR)-$(EXIF_MONTH)-$(EXIF_DAY)-N-$(FILE_SEQUENCE).$(FILE_EXTENSION)';
+}
+elsif ( $fn_template eq '-o' )
+{
+	$fn_template = '$(FILE_DIR)$(EXIF_YEAR)-$(EXIF_MONTH)-$(EXIF_DAY)-O-$(FILE_SEQUENCE).$(FILE_EXTENSION)';
+}
+elsif ( $fn_template eq '-m' )
+{
+	$fn_template = '$(FILE_DIR)$(EXIF_YEAR)-$(EXIF_MONTH)-$(EXIF_DAY)-M-$(FILE_SEQUENCE).$(FILE_EXTENSION)';
+}
+
+print "Template: $fn_template\n";
+
 my $i = 1;
 
 while ( defined $ARGV[$i] )
