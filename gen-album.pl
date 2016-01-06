@@ -542,17 +542,12 @@ sub create_navigator_html
 	$subtitle = $subtexts[$image_index];
 	$image = $images[$image_index];
 
-	print STDERR "DBG1: caption = \"$title\"\n";
-
 	$title = "" if ( !defined $title );
 	$subtitle = "" if ( !defined $subtitle );
-
-	print STDERR "DBG2: caption = \"$title\"\n";
 
 	if ( $title eq "" )
 	{
 		$this_html = "";
-		print STDERR "DBG3: this_html = \"$this_html\"\n";
 	}
 	else
 	{
@@ -562,7 +557,6 @@ sub create_navigator_html
      <p>$subtitle</p>
      <hr/>
 EOF
-		print STDERR "DBG4: this_html = \"$this_html\"\n";
 	}
 
 	$prev_index = $image_index-1;
