@@ -575,7 +575,7 @@ EOF
 	{
 		$back_html = <<EOF;
     <div id="nav-back" class="nav-section">
-     <a href="$script_name?$album_name"><h4>Back to index</h4></a>
+     <a href="$script_name?$album_name"><h4>Index</h4></a>
      <hr/>
     </div>
 EOF
@@ -584,7 +584,7 @@ EOF
 	{
 		$back_html = <<EOF;
     <div id="nav-back" class="nav-section">
-     <a href="$script_name?$album_name"><h4>Index</h4></a>
+     <a href="$script_name?$album_name"><h4>Back to index</h4></a>
      <hr/>
     </div>
 EOF
