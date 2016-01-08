@@ -87,6 +87,7 @@ my $DBG = 0;
 my $n_errors;
 my $errmsg;
 my $image_index;
+my $mobile = 0;
 
 # Make sure the document root is defined and is a directory. Error page if not!
 my $docroot = $ENV{"DOCUMENT_ROOT"};
@@ -133,6 +134,10 @@ while ( defined $qparams[$i] )
 	process_opt($qparams[$i]);
 	$i++;
 }
+
+# Set up the mobile=1 option if the mobile site is in use.
+my $mob = "";
+$mob = "&mobile=1" if ( $mobile );
 
 my $album_filename = $docroot . "/" . $album_dir . "/" . $album_name . ".album";
 
@@ -197,6 +202,16 @@ sub process_opt
 
 	# Options are of the form keyword=value. Anything unknown is ignored
 	my ($kw, $val) = $opt =~ m{^(.+)=(.+)$};
+	my $nval;
+
+	if ( $val eq "0" )
+	{
+		$nval = 0;
+	}
+	else
+	{
+		($nval) = $val =~ m{^([1-9][0-9]*)$};
+	}
 
 	if ( defined $kw && defined $val )
 	{
@@ -204,20 +219,16 @@ sub process_opt
 
 		if ( $kw eq "image" )
 		{
-			if ( $val eq "0" )
+			if ( !defined $nval )
 			{
-				$image_index = 0;
+				error_page(1005, "Non-numeric value specified for the image identifier",
+							"Parameter was \"$opt\"");
 			}
-			else
-			{
-				my ($nval) = $val =~ m{^([1-9][0-9]*)$};
-				if ( !defined $nval )
-				{
-					error_page(1005, "Non-numeric value specified for the image identifier",
-								"Parameter was \"$opt\"");
-				}
-				$image_index = $nval;
-			}
+			$image_index = $nval;
+		}
+		elsif ( $kw eq "mobile" )
+		{
+			$mobile = 1 if ( defined $nval && $nval == 1 );
 		}
 	}
 }
@@ -512,7 +523,7 @@ EOF
 		$th = $thumbs[$i];
 
 		$html .= <<EOF;
-   <a href="$script_name?$album_name&image=$i"><img
+   <a href="$script_name?$album_name&image=$i$mob"><img
       src="$th"
       alt="$im"></a>
 
@@ -535,7 +546,7 @@ sub create_navigator_html
 	my ($title, $subtitle, $image);		# For the images on this page.
 	my ($prev_index, $prev_html);
 	my ($next_index, $next_html);
-	my ($this_html);
+	my ($this_html, $albhead_html, $back_html);
 
 	# Pull info from arrays and fill in the blanks.
 	$title = $captions[$image_index];
@@ -545,17 +556,54 @@ sub create_navigator_html
 	$title = "" if ( !defined $title );
 	$subtitle = "" if ( !defined $subtitle );
 
-	if ( $title eq "" )
+	if ( $mobile )
 	{
+		# No album heading for mobile site - it's too wide.
+		$albhead_html = "";
+	}
+	else
+	{
+		$albhead_html = <<EOF;
+    <div id="nav-albuminfo" class="nav-section">
+     <h2>$album_heading<h2>
+     <hr/>
+    </div>
+EOF
+	}
+
+	if ( $mobile )
+	{
+		$back_html = <<EOF;
+    <div id="nav-back" class="nav-section">
+     <a href="$script_name?$album_name"><h4>Back to index</h4></a>
+     <hr/>
+    </div>
+EOF
+	}
+	else
+	{
+		$back_html = <<EOF;
+    <div id="nav-back" class="nav-section">
+     <a href="$script_name?$album_name"><h4>Index</h4></a>
+     <hr/>
+    </div>
+EOF
+	}
+
+	if ( $mobile || $title eq "" )
+	{
+		# No image info for mobile site - it's too wide.
 		$this_html = "";
 	}
 	else
 	{
 		$this_html = <<EOF;
+    <div id="nav-imageinfo" class="nav-section">
      <h4>This image:</h4>
      <a href="$image"><h3>$title</h3></a>
      <p>$subtitle</p>
      <hr/>
+    </div>
 EOF
 	}
 
@@ -571,12 +619,14 @@ EOF
 		my $prev_thumb = $thumbs[$prev_index];
 
 		$prev_html = <<EOF;
-     <a href="$script_name?$album_name&image=$prev_index"><h4>Previous:</h4></a>
-     <a href="$script_name?$album_name&image=$prev_index"><img
+    <div id="nav-prev" class="nav-section">
+     <a href="$script_name?$album_name&image=$prev_index$mob"><h4>Previous:</h4></a>
+     <a href="$script_name?$album_name&image=$prev_index$mob"><img
         class="fit-panel"
         src="$prev_thumb"
         alt="$prev_image"></a>
      <hr/>
+    </div>
 EOF
 	}
 
@@ -593,35 +643,25 @@ EOF
 		my $next_thumb = $thumbs[$next_index];
 
 		$next_html = <<EOF;
-     <a href="$script_name?$album_name&image=$next_index"><h4>Next:</h4></a>
-     <a href="$script_name?$album_name&image=$next_index"><img
+    <div id="nav-next" class="nav-section">
+     <a href="$script_name?$album_name&image=$next_index$mob"><h4>Next:</h4></a>
+     <a href="$script_name?$album_name&image=$next_index$mob"><img
         class="fit-panel"
         src="$next_thumb"
         alt="$next_image"></a>
      <hr/>
+    </div>
 EOF
 	}
 
 	$html  = <<EOF;
   <div id="navigator">
    <div id="nav-left">
-    <div id="nav-albuminfo" class="nav-section">
-     <h2>$album_heading<h2>
-     <hr/>
-    </div>
-    <div id="nav-next" class="nav-section">
+$albhead_hml
 $next_html
-    </div>
-    <div id="nav-prev" class="nav-section">
 $prev_html
-    </div>
-    <div id="nav-back" class="nav-section">
-     <a href="$script_name?$album_name"><h4>Back to index</h4></a>
-     <hr/>
-    </div>
-    <div id="nav-imageinfo" class="nav-section">
+$back_html
 $this_html
-    </div>
    </div>
    <div id="nav-right">
     <div id="nav-right-top"> </div>
