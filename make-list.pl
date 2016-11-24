@@ -17,7 +17,7 @@ my $list_subject = "Stuff";
 my $csvname = $ARGV[0];
 my $htmlname = $ARGV[1];
 my $template = "x-list-html.tmpl";
-my $templatedir = "/data/family-history/tools/gallery/templates";
+my $templatedir = "/data/tools/gallery/templates";
 my $csvfile;
 my $DBG = 0;
 my $list_type = "?";
