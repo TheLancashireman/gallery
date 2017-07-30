@@ -1,0 +1,57 @@
+[%# gallery-html.tmpl - a template for a photo gallery page
+
+    (c) 2014 David Haworth
+
+    This file is part of dhGalleryMaker.
+
+    dhGalleryMaker is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    dhGalleryMaker is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with dhGalleryMaker.  If not, see <http://www.gnu.org/licenses/>.
+
+    $Id: gallery-index-html.tmpl 700 2014-07-01 19:38:10Z dave $
+-%]
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="" />
+  <meta name="author" content="TheLancashireman" />
+  <meta name="generator" content="dhGalleryMaker" />
+
+  <title>[% gallery_title %]</title>
+  <link rel="stylesheet" type="text/css" href="/styles/gallery.css"/>
+</head>
+
+<body>
+
+  <div id="gallery">
+
+    <div id="thumbs">
+      <h1>[% gallery_header %]</h1>
+      <p>[% gallery_text %]</p>
+[% im = 0 -%]
+[% WHILE im < n_images -%]
+[%   im = im + 1 -%]
+      <a href="[% links.$im %]"><img
+          src="[% thumbs.$im %]"
+          alt="[% images.$im %]"/></a>
+[% END -%]
+    </div>
+
+  </div>
+
+</body>
+
+</html>
