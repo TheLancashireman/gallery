@@ -1,0 +1,8 @@
+#!/bin/sh
+if [ "$2" = "" ]; then
+  echo "Usage: shrink-1200x800  <file>  <name>"
+  exit 1
+fi
+
+base=`basename $1 .JPG`
+convert $1 -scale 1200x800 album/$base-$2.jpeg
