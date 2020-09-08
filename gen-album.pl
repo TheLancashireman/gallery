@@ -18,8 +18,6 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with dhGalleryMaker.  If not, see <http://www.gnu.org/licenses/>.
-#
-# $Id$
 
 # ========================================
 #
@@ -248,7 +246,7 @@ Content-type: text/html
  <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="" />
+  <meta name="description" content="The Lancashireman's picture book" />
   <meta name="author" content="TheLancashireman" />
   <meta name="generator" content="dhGalleryMaker" />
 
